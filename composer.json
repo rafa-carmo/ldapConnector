@@ -1,0 +1,16 @@
+{
+    "name": "rafael/ldap-connector",
+    "type": "ldap-validator",
+    "autoload": {
+        "psr-4": {
+            "Rafael\\LdapConnector\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Rafael do Carmo da Silva",
+            "email": "rafaelcarmo143@gmail.com"
+        }
+    ],
+    "require": {}
+}
