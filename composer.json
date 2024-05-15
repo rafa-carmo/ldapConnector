@@ -12,5 +12,9 @@
             "email": "rafaelcarmo143@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "php": ">=7.4",
+        "ext-ldap": "*",
+        "laravel/framework": "^8"
+    }
 }
