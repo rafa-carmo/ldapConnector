@@ -2,7 +2,7 @@
 
 namespace App\Http\Services;
 
-use Rafael\LdapConnector\LdapConnectLaravel;
+use RafaCarmo\LdapConnector\LdapConnectLaravel;
 
 
 class LdapConnectService extends LdapConnectLaravel

@@ -1,8 +1,7 @@
 <?php
 
-namespace Rafael\LdapConnector;
+namespace RafaCarmo\LdapConnector;
 
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 
 class LdapConnectProvider extends ServiceProvider

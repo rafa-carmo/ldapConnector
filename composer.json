@@ -1,10 +1,10 @@
 {
-    "name": "rafael/ldap-connector",
+    "name": "rafa-carmo/ldap-connector",
     "description": "A simple ldap connector",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Rafael\\LdapConnector\\": "src/"
+            "RafaCarmo\\LdapConnector\\": "src/"
         }
     },
     "authors": [
@@ -21,7 +21,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Rafael\\LdapConnector\\LdapConnectProvider"
+                "Rafacarmo\\LdapConnector\\LdapConnectProvider"
             ]
         }
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Rafael\LdapConnector;
+namespace RafaCarmo\LdapConnector;
 
 use Illuminate\Support\Facades\Auth;
 
