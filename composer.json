@@ -4,7 +4,7 @@
     "version": "1.0.0",
     "autoload": {
         "psr-4": {
-            "Rafael\\": "src/"
+            "Rafael\\LdapConnector\\": "src/"
         }
     },
     "authors": [
@@ -17,8 +17,5 @@
         "php": ">=7.4",
         "ext-ldap": "*",
         "laravel/framework": "^8"
-    },
-    "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.57"
     }
 }
