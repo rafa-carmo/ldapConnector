@@ -1,8 +1,7 @@
 {
     "name": "rafael/ldap-connector",
     "description": "A simple ldap connector",
-    "type": "ldap-validator",
-    "version": "1.0.0",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "Rafael\\LdapConnector\\": "src/"
