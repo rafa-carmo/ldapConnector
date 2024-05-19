@@ -14,6 +14,7 @@ class LdapConnectProvider extends ServiceProvider
     public function boot()
     {
         $this->registerConfiguration();
+        $this->registerService();
     }
 
     /**
@@ -27,6 +28,20 @@ class LdapConnectProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../config/ldap.php' => config_path('ldap.php'),
             ], 'ldap-config');
+        }
+    }
+
+    /**
+     * Register the publishable LDAP service file.
+     *
+     * @return void
+     */
+    protected function registerService()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__.'/../service/LdapConnectService.php' => app_path('Http/Services/LdapConnectService.php'),
+            ], 'ldap-service');
         }
     }
 }
