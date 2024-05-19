@@ -1,6 +1,6 @@
 <?php
 
-namespace LdapConnect;
+namespace Rafael\LdapConnector;
 
 class LdapConnect
 {
