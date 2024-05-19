@@ -2,6 +2,7 @@
 
 namespace Rafael\LdapConnector;
 
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 
 class LdapConnectProvider extends ServiceProvider
@@ -31,6 +32,7 @@ class LdapConnectProvider extends ServiceProvider
         }
     }
 
+
     /**
      * Register the publishable LDAP service file.
      *
@@ -39,6 +41,7 @@ class LdapConnectProvider extends ServiceProvider
     protected function registerService()
     {
         if ($this->app->runningInConsole()) {
+
             $this->publishes([
                 __DIR__.'/../service/LdapConnectService.php' => app_path('Http/Services/LdapConnectService.php'),
             ], 'ldap-service');

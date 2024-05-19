@@ -53,7 +53,7 @@ class LdapConnectLaravel
         $this->mail_domain = env("LDAP_DEFAULT_DOMAIN");
         $this->auto_create = env("LDAP_DEFAULT_AUTO_CREATE", false);
         $this->protocol_version = env("LDAP_OPT_PROTOCOL_VERSION", 3);
-        
+
 
     }
 
@@ -169,8 +169,8 @@ class LdapConnectLaravel
     * @param  string $login
     * @return false|array
     */
-    public function findUser(string $login) {
-        $type = "uid";
+    public function findUser(string $login, string $type = "uid") {
+        if(!config('ldap.username') && !config('ldap.password')) return;
         $sanitizedLogin = $this->sanitize($login);
         if(str_contains($sanitizedLogin, "@")) $type = "mail";
 
