@@ -39,19 +39,19 @@ class LdapConnectLaravel
             $this->user = config("ldap.username");
             $this->password = config("ldap.password");
             $this->base_dn = config("ldap.base_dn");
-            $this->mail_domain = config("ldap.main_domain");
+            $this->mail_domain = config("ldap.mail_domain");
             $this->auto_create = config("ldap.auto_create", false);
             $this->protocol_version = config("ldap.protocol_version", 3);
             return;
         }
 
-        $this->host = env("LDAP_DEFAULT_HOST", "localhost");
-        $this->port = env("LDAP_DEFAULT_PORT", 389);
-        $this->user = env("LDAP_DEFAULT_USERNAME");
-        $this->password = env("LDAP_DEFAULT_PASSWORD");
-        $this->base_dn = env("LDAP_DEFAULT_BASE_DN");
-        $this->mail_domain = env("LDAP_DEFAULT_DOMAIN");
-        $this->auto_create = env("LDAP_DEFAULT_AUTO_CREATE", false);
+        $this->host = env("LDAP_HOST", "localhost");
+        $this->port = env("LDAP_PORT", 389);
+        $this->user = env("LDAP_USERNAME");
+        $this->password = env("LDAP_PASSWORD");
+        $this->base_dn = env("LDAP_BASE_DN");
+        $this->mail_domain = env("LDAP_DOMAIN");
+        $this->auto_create = env("LDAP_AUTO_CREATE", false);
         $this->protocol_version = env("LDAP_OPT_PROTOCOL_VERSION", 3);
 
 
