@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Auth;
 
 class LdapConnectLaravel
 {
-
     private $connection;
     private $port;
     private $host;
@@ -32,7 +31,8 @@ class LdapConnectLaravel
     * Pega as variáveis de ambiente para a classe
     *
     */
-    private function configVariables() {
+    private function configVariables()
+    {
         if(config('ldap')) {
             $this->host = config("ldap.host");
             $this->port = config("ldap.port");
@@ -57,7 +57,7 @@ class LdapConnectLaravel
 
     }
 
-     /**
+    /**
     *--------------------------------------------------------------------------
     * createConnection
     *--------------------------------------------------------------------------
@@ -84,13 +84,16 @@ class LdapConnectLaravel
     * @param  string $login
     * @return string
     */
-    private function sanitize(string $value) {
+    private function sanitize(string $value)
+    {
         $sanitize = str_replace(array('\\', '*', '(', ')'), array('\5c', '\2a', '\28', '\29'), $value);
-        for ($i = 0; $i<strlen($sanitize); $i++) {
+        for ($i = 0; $i < strlen($sanitize); $i++) {
             $char = substr($sanitize, $i, 1);
-            if (ord($char)<32) {
+            if (ord($char) < 32) {
                 $hex = dechex(ord($char));
-                if (strlen($hex) == 1) $hex = '0' . $hex;
+                if (strlen($hex) == 1) {
+                    $hex = '0' . $hex;
+                }
                 $sanitize = str_replace($char, '\\' . $hex, $sanitize);
             }
         }
@@ -107,9 +110,10 @@ class LdapConnectLaravel
     * @param  string $login
     * @return string
     */
-    public function getUsername($login) {
+    public function getUsername($login)
+    {
         $username = $login;
-        if(str_contains($username, "@")){
+        if(str_contains($username, "@")) {
             $username = explode("@", $username)[0];
         }
         return $username;
@@ -126,7 +130,8 @@ class LdapConnectLaravel
     * @return string
     */
 
-    public function genLoginString($username) {
+    public function genLoginString($username)
+    {
         if($this->mail_domain) {
             return $username."@".$this->mail_domain;
         }
@@ -145,19 +150,24 @@ class LdapConnectLaravel
     * @param  string  $password
     * @return bool|string
     */
-    public function bind(string $username, string $password) {
+    public function bind(string $username, string $password)
+    {
         $username = $this->getUsername($username);
         $username = $this->sanitize($username);
         $username = $this->genLoginString($username);
+        $bind = @ldap_bind($this->connection, $username, $password);
+        @ldap_unbind($this->connection);
 
-        if(@ldap_bind($this->connection, $username, $password)) return true;
+        if($bind) {
+            return true;
+        }
 
-          if(ldap_get_option($this->connection, LDAP_OPT_DIAGNOSTIC_MESSAGE, $extended_error)){
+        if(ldap_get_option($this->connection, LDAP_OPT_DIAGNOSTIC_MESSAGE, $extended_error)) {
             if (strpos($extended_error, 'AcceptSecurityContext error, data 52e') !== false) {
                 return "Usuário ou senha inválidos";
             }
         };
-        
+
         return "Credenciais inválidas";
     }
 
@@ -171,16 +181,24 @@ class LdapConnectLaravel
     * @param  string $login
     * @return false|array
     */
-    public function findUser(string $login, string $type = "uid") {
-        if(!config('ldap.username') && !config('ldap.password')) return;
+    public function findUser(string $login, string $type = "uid")
+    {
+        if(!config('ldap.username') && !config('ldap.password')) {
+            return;
+        }
         $sanitizedLogin = $this->sanitize($login);
-        if(str_contains($sanitizedLogin, "@")) $type = "mail";
+        if(str_contains($sanitizedLogin, "@")) {
+            $type = "mail";
+        }
 
-        if(@ldap_bind($this->connection, $this->user, $this->password)){
+        if(@ldap_bind($this->connection, $this->user, $this->password)) {
             $filter = "($type=$sanitizedLogin)";
             $result = @ldap_search($this->connection, $this->base_dn, $filter);
             $entries = @ldap_get_entries($this->connection, $result);
-            if(count($entries) > 1) return $entries;
+            @ldap_unbind($this->connection);
+            if(count($entries) > 1) {
+                return $entries;
+            }
 
             return [];
         }
@@ -202,7 +220,8 @@ class LdapConnectLaravel
     * @param  string $index (Indicie para busca do usuário)
     * @return false|array
     */
-    public function createOrUpdateLogin(string $model, array $data=null, array $index = null) {
+    public function createOrUpdateLogin(string $model, array $data = null, array $index = null)
+    {
         if($index) {
             $findUser = $model::where($index);
 
@@ -215,7 +234,7 @@ class LdapConnectLaravel
             return "Usuário não encontrado";
         }
 
-        if($this->auto_create){
+        if($this->auto_create) {
             $newUser = $model::create($data);
             Auth::loginUsingId($newUser->id);
             return $newUser;
