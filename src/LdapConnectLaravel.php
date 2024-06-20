@@ -156,18 +156,20 @@ class LdapConnectLaravel
         $username = $this->sanitize($username);
         $username = $this->genLoginString($username);
         $bind = @ldap_bind($this->connection, $username, $password);
-        @ldap_unbind($this->connection);
 
         if($bind) {
+            @ldap_unbind($this->connection);
             return true;
         }
 
         if(ldap_get_option($this->connection, LDAP_OPT_DIAGNOSTIC_MESSAGE, $extended_error)) {
             if (strpos($extended_error, 'AcceptSecurityContext error, data 52e') !== false) {
+                @ldap_unbind($this->connection);
                 return "Usuário ou senha inválidos";
             }
         };
 
+        @ldap_unbind($this->connection);
         return "Credenciais inválidas";
     }
 
